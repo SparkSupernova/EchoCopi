@@ -1,68 +1,84 @@
-# 🧠 EchoCopi™: The Agentic Memory Framework
+# 🧠 EchoCopi™ Core (Free Edition)
 
-**By 🔌 SparkPlugged Technology Solutions**
+**The Local Memory Engine for AI Coding Assistants.**
 
 [![License: SparkPlugged Community](https://img.shields.io/badge/License-SparkPlugged_Community-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)]()
 
-![EchoCopi Memory Engine Demo](assets/demo_memory.png)
+EchoCopi Core is a lightweight Python library that gives your AI (GitHub Copilot, Cursor, Windsurf) a **persistent memory**.
 
-**Stop repeating yourself. Give your AI a memory.**
-
-EchoCopi is the standard for **Persistent AI Context**. It allows coding assistants (GitHub Copilot, Cursor, Windsurf) to remember your project history, architectural decisions, and coding style across sessions.
+Unlike static `.cursorrules` files or text prompts, EchoCopi is a **living ledger**. It allows your AI to log thoughts, architectural decisions, and project milestones to a local JSON database that persists across sessions.
 
 ---
 
-## 📊 Editions & Features
+## 🚀 Quick Start
 
-| Feature | **Core (Free)** | **Architect (Pro)** | **Autonomy (Ultimate)** |
-| :--- | :---: | :---: | :---: |
-| **Memory Engine** (`echo_memory.py`) | ✅ | ✅ | ✅ |
-| **Evolutionary Logging** | ✅ | ✅ | ✅ |
-| **Checksum Integrity** | ✅ | ✅ | ✅ |
-| **Protocol Suite** (The "Brain") | ❌ | ✅ | ✅ |
-| **Pre-built Personas** | ❌ | ✅ | ✅ |
-| **Project Mapping Templates** | ❌ | ✅ | ✅ |
-| **Background Worker** (`echo_worker.py`) | ❌ | ❌ | ✅ |
-| **"Good Morning" Sync** | ❌ | ❌ | ✅ |
-| **Reset-Resilient Automation** | ❌ | ❌ | ✅ |
+### 1. Install
+Copy the `src/echo_memory.py` file into your project. We recommend placing it in a hidden folder like `.echo/` or `tools/`.
 
-### [👉 Get EchoCopi Architect (Pro)](https://sparkplugged.lemonsqueezy.com)
-*The "Manual" for the Engine. Includes the full Instruction Protocol Suite.*
+```bash
+mkdir .echo
+cp src/echo_memory.py .echo/
+```
 
-### [👉 Get EchoCopi Autonomy (Ultimate)](https://sparkplugged.lemonsqueezy.com)
-*The "Employee that never sleeps." Includes the Background Worker & Automation Tools.*
+### 2. Initialize
+In any Python script (or even a temporary script you ask the AI to run), import and initialize the engine.
+
+```python
+from .echo.echo_memory import echo
+
+# Initialize the memory engine
+e = echo()
+```
+
+### 3. Log a Memory
+Tell the AI to log a thought. It will save to your AI's memory file.
+
+```python
+# Log a milestone
+e.log_thought(
+    category="milestone",
+    thought="We just decided to use FastAPI instead of Flask.",
+    context={"reason": "Async support", "performance": "high"}
+)
+```
 
 ---
 
-## 📦 Core Installation (Free)
+## 📂 How It Works
 
-1.  Copy `src/echo_memory.py` to your project (e.g., `.echo/`).
-2.  Import it in your scripts:
-    ```python
-    from .echo.echo_memory import echo
-    e = echo()
-    e.log_thought("milestone", "I remembered this!")
-    ```
-3.  Your AI will now create a `.echo_memory/` folder to store its thoughts.
+When you run the code above, EchoCopi creates a `.echo_memory/` folder in your project root.
 
-## 💎 Why Upgrade?
+```text
+.echo_memory/
+├── evolution.json       # The master ledger of all memories
+└── echo_state/          # Snapshots of the AI's mental state
+```
 
-**EchoCopi Core** gives you the *engine*. But an engine needs a driver.
+*   **Local & Private:** Data never leaves your machine.
+*   **Verifiable:** Every entry is hashed (SHA-256) to prevent corruption.
+*   **Universal:** Works with any AI that can run a Python script.
 
-### 1. EchoCopi Architect (Pro)
-*The "Manual" for the Engine. Includes the full Instruction Protocol Suite.*
-[👉 Get Architect Edition](https://sparkplugged.lemonsqueezy.com)
+---
 
-### 2. EchoCopi Autonomy (Ultimate)
-*The "Employee that never sleeps." Includes the Background Worker & Automation Tools.*
-[👉 Get Autonomy Edition](https://sparkplugged.lemonsqueezy.com)
+## 💡 Why use EchoCopi?
 
-![EchoCopi Autonomy Worker](assets/demo_server.png)
-*The Background Worker executing tasks while you sleep.*
+| Feature | Static Text Files | EchoCopi Memory |
+| :--- | :---: | :---: |
+| **Persistence** | ❌ Resets every chat | ✅ Forever |
+| **Context Limit** | ❌ Limited by token window | ✅ Infinite (Ledger) |
+| **Evolution** | ❌ Static | ✅ Grows with project |
+| **Privacy** | ⚠️ Sent to cloud | ✅ 100% Local |
 
-![EchoCopi Morning Sync](assets/demo_sync.png)
-*The Morning Sync protocol restoring your context instantly.*
+---
+
+## 💎 Unlock the Full System
+
+EchoCopi Core is just the engine. To get the full "Agentic" experience, check out the upgrades:
+
+*   **🏛️ Architect (Pro):** The "Brain". A suite of System Prompts & Protocols to teach the AI *how* to use this memory effectively.
+*   **⚡ Autonomy (Ultimate):** The "Hands". A background worker script that runs tasks while you sleep.
+
+[👉 **Get the Upgrades**](https://sparkplugged.lemonsqueezy.com)
 
 ---
 Copyright © 2025 SparkPlugged Technology Solutions.
