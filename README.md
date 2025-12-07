@@ -71,7 +71,7 @@ When you run the code above, EchoCopi creates a `.echo_memory/` folder in your p
 
 ---
 
-## 💎 Unlock the Full System (Coming Dec 2025)
+## 💎 Unlock the Full System (Official release Dec 14th 2025)
 
 EchoCopi Core is just the engine. To get the full "Agentic" experience, check out the upgrades:
 
@@ -83,4 +83,5 @@ EchoCopi Core is just the engine. To get the full "Agentic" experience, check ou
 ---
 Copyright © 2025 SparkPlugged Technology Solutions.
 Licensed under the SparkPlugged Community License.
+
 
