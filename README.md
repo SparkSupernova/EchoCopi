@@ -81,7 +81,7 @@ EchoCopi Core is just the engine. To get the full "Agentic" experience, check ou
 [👉 **Get the Upgrades**](https://sparkplugged.lemonsqueezy.com)
 
 ---
-Copyright © 2025 SparkPlugged Technology Solutions.
+Copyright © 2026 SparkPlugged Technology Solutions LLC.
 Licensed under the SparkPlugged Community License.
 
 
