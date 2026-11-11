@@ -78,13 +78,12 @@ class EchoMemoryEngine:
             json.dumps(entry_for_hash, sort_keys=True).encode()
         ).hexdigest()
 
-    
-    def _validate_entry(self, entry: Dict[str, Any], on_write: bool = True) -> None:
+    def _validate_entry(self, entry: Dict[str, Any], on_write: bool = True) -> bool:
         """
         Validate schema of a memory entry.
         Required fields: timestamp (ISO 8601 str), session_id (str), type (str),
         content (str), context (dict), checksum (str).
-        Raises ValueError on invalid entry if on_write, otherwise prints a report.
+        Raises ValueError on invalid entry if on_write, otherwise prints a report and returns False.
         """
         required = {
             "timestamp": str,
@@ -116,7 +115,7 @@ class EchoMemoryEngine:
                 return False
         return True
 
-def _load_evolution(self) -> Dict[str, Any]:
+    def _load_evolution(self) -> Dict[str, Any]:
         """Load existing evolution data or create new."""
         if self.evolution_file.exists():
             with open(self.evolution_file, "r", encoding="utf-8") as f:
@@ -542,10 +541,6 @@ def _load_evolution(self) -> Dict[str, Any]:
             for line in f:
                 entry = json.loads(line.strip())
 
-                schema_ok = self._validate_entry(entry, on_write=False)
-                if not schema_ok:
-                    tampered += 1  # Treat schema failure as integrity issue
-                    continue
                 if "checksum" not in entry:
                     missing_checksum += 1
                 elif self.verify_integrity(entry):
