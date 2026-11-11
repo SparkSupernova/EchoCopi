@@ -78,7 +78,45 @@ class EchoMemoryEngine:
             json.dumps(entry_for_hash, sort_keys=True).encode()
         ).hexdigest()
 
-    def _load_evolution(self) -> Dict[str, Any]:
+    
+    def _validate_entry(self, entry: Dict[str, Any], on_write: bool = True) -> None:
+        """
+        Validate schema of a memory entry.
+        Required fields: timestamp (ISO 8601 str), session_id (str), type (str),
+        content (str), context (dict), checksum (str).
+        Raises ValueError on invalid entry if on_write, otherwise prints a report.
+        """
+        required = {
+            "timestamp": str,
+            "session_id": str,
+            "type": str,
+            "content": str,
+            "context": dict,
+            "checksum": str,
+        }
+        errors = []
+        for field, expected_type in required.items():
+            if field not in entry:
+                errors.append(f"missing required field: {field}")
+            elif not isinstance(entry[field], expected_type):
+                errors.append(f"field {field} must be {expected_type.__name__}, got {type(entry[field]).__name__}")
+
+        if "timestamp" in entry and isinstance(entry["timestamp"], str):
+            try:
+                datetime.fromisoformat(entry["timestamp"].replace("Z", "+00:00"))
+            except ValueError:
+                errors.append(f"timestamp is not valid ISO 8601: {entry['timestamp']}")
+
+        if errors:
+            msg = "Invalid memory entry: " + "; ".join(errors)
+            if on_write:
+                raise ValueError(msg)
+            else:
+                print(f"⚠️  Schema violation on read: {msg}")
+                return False
+        return True
+
+def _load_evolution(self) -> Dict[str, Any]:
         """Load existing evolution data or create new."""
         if self.evolution_file.exists():
             with open(self.evolution_file, "r", encoding="utf-8") as f:
@@ -236,6 +274,9 @@ class EchoMemoryEngine:
         # Add checksum AFTER all fields are set - Heartbeat verification
         # This must be the LAST modification to thought_entry before logging
         thought_entry["checksum"] = self._hash_entry(thought_entry)
+
+        # Schema validation before write
+        self._validate_entry(thought_entry, on_write=True)
 
         # Append to session log
         self.thoughts.append(thought_entry)
@@ -475,7 +516,11 @@ class EchoMemoryEngine:
         """
         Verify the integrity of a logged entry using its checksum.
         Returns True if authentic, False if tampered.
+        Also reports schema violations on read.
         """
+        if not self._validate_entry(entry, on_write=False):
+            return False
+
         if "checksum" not in entry:
             return False  # No checksum = can't verify
 
@@ -497,6 +542,10 @@ class EchoMemoryEngine:
             for line in f:
                 entry = json.loads(line.strip())
 
+                schema_ok = self._validate_entry(entry, on_write=False)
+                if not schema_ok:
+                    tampered += 1  # Treat schema failure as integrity issue
+                    continue
                 if "checksum" not in entry:
                     missing_checksum += 1
                 elif self.verify_integrity(entry):

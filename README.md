@@ -86,3 +86,20 @@ Licensed under the SparkPlugged Community License.
 
 
 
+
+
+## Running the tests
+
+Install pytest if needed:
+
+```bash
+pip install pytest
+```
+
+From the repository root:
+
+```bash
+PYTHONPATH=src pytest tests/ -q
+```
+
+Or with a virtual environment. The test suite covers logging, integrity verification, schema validation, resume behavior, and continuity context.
